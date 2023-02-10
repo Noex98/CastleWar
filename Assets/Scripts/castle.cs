@@ -24,7 +24,7 @@ public class castle : MonoBehaviour
 
     if(collision.gameObject.name == "paperclip")
     {
-        Debug.Log("exit")
+        Debug.Log("exit");
     }
   }
 
