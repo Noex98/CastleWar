@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+<<<<<<< HEAD
     private static GameManager _instance;
     public static GameManager Instance { 
         get {
@@ -13,6 +14,9 @@ public class GameManager : MonoBehaviour
             return _instance;
         }
     }
+=======
+    public static GameManager Instance { get; private set; }
+>>>>>>> c3ec6877400c1a453b28f52bb8943dc90f78ad55
 
     public int activeTurn = 0;
     public int[] heartScore = new int[] {3, 3, 3, 3};
@@ -20,13 +24,22 @@ public class GameManager : MonoBehaviour
     public int[] teamTwoBases = new int[5];
 
     private void Awake() {
+<<<<<<< HEAD
         DontDestroyOnLoad(gameObject);
+=======
+        if (Instance != null && Instance != this) {
+            Destroy(this); 
+        } else {
+            Instance = this; 
+        }
+>>>>>>> c3ec6877400c1a453b28f52bb8943dc90f78ad55
     }
 
     private int getCurrentTeam(){
         return activeTurn < 2 ? 1 : 2;
     }
 
+<<<<<<< HEAD
     public void handleBaseHit(int baseId){
         int currentTeam = getCurrentTeam();
         //bool baseAlreadyCaptured = 
@@ -42,11 +55,29 @@ public class GameManager : MonoBehaviour
     }
 
     public void handleMiss(){
+=======
+    void handleBaseHit(int baseId){
+        int currentTeam = getCurrentTeam();
+        
+        changeTurn();
+    }
+
+    void handleCastleHit(int CastleId){
+        Debug.Log("Castle hit");
+        changeTurn();
+    }
+
+    void handleMiss(){
+>>>>>>> c3ec6877400c1a453b28f52bb8943dc90f78ad55
         Debug.Log("Miss");
         changeTurn();
     }
 
+<<<<<<< HEAD
     public void endGame(){
+=======
+    void endGame(){
+>>>>>>> c3ec6877400c1a453b28f52bb8943dc90f78ad55
         Debug.Log("Game ended");
     }
 
@@ -55,4 +86,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("Change turn");
     }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> c3ec6877400c1a453b28f52bb8943dc90f78ad55
