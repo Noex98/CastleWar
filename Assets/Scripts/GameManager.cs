@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-
     private static GameManager _instance;
     public static GameManager Instance { 
         get {
@@ -30,7 +29,7 @@ public class GameManager : MonoBehaviour
 
     public void handleBaseHit(int baseId){
         int currentTeam = getCurrentTeam();
-        bool baseAlreadyCaptured = 
+        //bool baseAlreadyCaptured = 
         changeTurn();
     }
 
@@ -38,7 +37,7 @@ public class GameManager : MonoBehaviour
         if(heartScore[castleId] > 0) {
             heartScore[castleId] -= 1;
         }
-        EventSystemTest.EventSystem.FireEvent(EventType.CasetleHit);
+        EventSystem.FireEvent(EventType.CastleHit);
         changeTurn();
     }
 
