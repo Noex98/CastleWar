@@ -27,7 +27,6 @@ public class GameManager : MonoBehaviour {
     private void Start(){
         EventSystem.FireEvent(EventType.TurnStart);
     }
-    
 
     public int activeTurn = 0;
     public int[] heartScore = new int[4] {3, 3, 3, 3};
@@ -63,9 +62,14 @@ public class GameManager : MonoBehaviour {
         Debug.Log("Game ended");
     }
 
+    private int getNextPlayersTurn(int activeTurn){
+        int nextPlayer = activeTurn >= 3 ? 0 : activeTurn + 1;
+        return heartScore[nextPlayer] == 0 ? getNextPlayersTurn(nextPlayer) : nextPlayer;
+    }
+
     private void ChangeTurn(){
         EventSystem.FireEvent(EventType.TurnOver);
-        activeTurn = activeTurn >= 3 ? 0 : activeTurn + 1;
+        activeTurn = getNextPlayersTurn(activeTurn);
         EventSystem.FireEvent(EventType.TurnStart);
     }
 }
