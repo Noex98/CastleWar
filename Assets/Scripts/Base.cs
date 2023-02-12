@@ -14,7 +14,6 @@ public class Base : MonoBehaviour {
     }
 
     private void UpdateColor(){
-        Debug.Log("update color");
         if(gameManager.baseState[id] != 0){
             spriteRenderer.color = gameManager.baseState[id] == 1 ? teamOneColor : teamTwoColor;
         }

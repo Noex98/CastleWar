@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour {
         EventSystem.FireEvent(EventType.TurnStart);
     }
 
-    private int getCurrentTeam(){
+    public int getCurrentTeam(){
         return activeTurn < 2 ? 1 : 2;
     }
 
@@ -42,7 +42,6 @@ public class GameManager : MonoBehaviour {
         int currentTeam = getCurrentTeam();
         baseState[baseId] = currentTeam;
         EventSystem.FireEvent(EventType.BaseHit);
-        Debug.Log("Gm");
         EndTurn();
         
     }
