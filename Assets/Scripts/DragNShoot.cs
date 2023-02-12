@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DragNShoot : MonoBehaviour {
+    private GameManager gameManager;
     public float power = 10f;
     public Rigidbody2D rb;
     public Vector2 minPower;
     public Vector2 maxPower;
-
     TrajectoryLine tl;
-
     Camera cam;
     Vector2 force;
     Vector3 startPoint;
     Vector3 endPoint;
-    bool hasBeenShot = false;
+    private bool hasBeenShot = false;
 
     private void Start(){
+        gameManager = GameManager.Instance;
         cam = Camera.main;
         tl = GetComponent<TrajectoryLine>();
     }
@@ -38,29 +38,42 @@ public class DragNShoot : MonoBehaviour {
             startPoint.z = 0;
 
             force = new Vector2(Mathf.Clamp(startPoint.x - endPoint.x, minPower.x, maxPower.x), Mathf.Clamp(startPoint.y - endPoint.y, minPower.y, maxPower.y));
-            Debug.Log(force);
             rb.AddForce(force * power, ForceMode2D.Impulse);
             tl.EndLine();
             hasBeenShot = true;
         }
     }
 
+    private IEnumerator DeclareMiss() {
+        if(gameObject){
+            yield return new WaitForSeconds(0.5f);
+            gameManager.HandleMiss();
+            Destroy(gameObject,0);
+        }
+    }
+
     private void HandleStop(){
-        Destroy(gameObject, 0);
+        CircleCollider2D collider = GetComponent<CircleCollider2D>();
+        collider.enabled = true;
+        StartCoroutine(DeclareMiss());
     }
 
     private void Update(){
         if (!hasBeenShot){
             HandleMouseInput();
-        } else {
-            bool hasStoppedMoving = rb.velocity.magnitude == 0;
-            if (hasStoppedMoving){
-                HandleStop();
-            }
+            return;
+        }
+
+        bool hasStoppedMoving = rb.velocity.magnitude == 0;
+        if (hasStoppedMoving){
+            HandleStop();
         }
     }
 
-    private void OnCollisionEnter(Collision collision){
-        Debug.Log("collision");
+    private void OnTriggerEnter2D(Collider2D targetHit){
+        if(targetHit.tag.Contains("Castle")){
+            gameManager.HandleCastleHit(targetHit.GetComponent<castle>().id);
+        }
+        Destroy(gameObject, 0);
     }
 }

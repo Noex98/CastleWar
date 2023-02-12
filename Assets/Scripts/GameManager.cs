@@ -3,22 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour {
-
-    /*
     private static GameManager _instance;
-    public static GameManager Instance { 
+    public static GameManager Instance {
         get {
-            if(_instance == null) {
-                _instance = new GameObject("GameManager").AddComponent<GameManager>();
+            if (_instance == null) {
+                _instance = FindObjectOfType<GameManager>();
+                if (_instance == null) {
+                    GameObject go = new GameObject();
+                    go.name = "GameManager";
+                    _instance = go.AddComponent<GameManager>();
+                }
             }
             return _instance;
         }
     }
-
+    
     private void Awake() {
-        DontDestroyOnLoad(gameObject);
+        if (_instance != null && _instance != this) {
+            Destroy(this.gameObject);
+        }
     }
-    */
+
+    private void Start(){
+        EventSystem.FireEvent(EventType.TurnStart);
+    }
+    
 
     public int activeTurn = 0;
     public int[] heartScore = new int[4] {3, 3, 3, 3};
@@ -31,31 +40,32 @@ public class GameManager : MonoBehaviour {
         return activeTurn < 2 ? 1 : 2;
     }
 
-    public void handleBaseHit(int baseId){
+    public void HandleBaseHit(int baseId){
         int currentTeam = getCurrentTeam();
         //bool baseAlreadyCaptured = 
-        changeTurn();
+        ChangeTurn();
     }
 
-    public void handleCastleHit(int castleId){
+    public void HandleCastleHit(int castleId){
         if(heartScore[castleId] > 0) {
             heartScore[castleId] -= 1;
         }
         EventSystem.FireEvent(EventType.CastleHit);
-        changeTurn();
+        ChangeTurn();
     }
 
-    public void handleMiss(){
+    public void HandleMiss(){
         Debug.Log("Miss");
-        changeTurn();
+        ChangeTurn();
     }
 
-    public void endGame(){
+    public void EndGame(){
         Debug.Log("Game ended");
     }
 
-    private void changeTurn(){
+    private void ChangeTurn(){
+        EventSystem.FireEvent(EventType.TurnOver);
         activeTurn = activeTurn >= 3 ? 0 : activeTurn + 1;
-        Debug.Log("Change turn");
+        EventSystem.FireEvent(EventType.TurnStart);
     }
 }

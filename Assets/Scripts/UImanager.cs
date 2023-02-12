@@ -2,12 +2,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UImanager : MonoBehaviour
-{
-    public GameManager gameManager;
-
+public class UImanager : MonoBehaviour{
+    private GameManager gameManager;
     public TMPro.TextMeshProUGUI[] heartDisplays = {};
 
+    private void Awake() {
+        gameManager = GameManager.Instance;
+    }
+    
     private void Start(){
         UpdateHeartDisplay();
     }
