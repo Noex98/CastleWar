@@ -13,7 +13,8 @@ public enum EventType { //Write the events that you need in the game, in this en
 	CastleHit,
 	BaseHit,
 	TurnOver,
-    TurnStart
+    TurnStart,
+    GameOver
 }
 
 public static class EventSystem {

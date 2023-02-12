@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
     public int[] heartScore = new int[4] {3, 3, 3, 3};
     public int[] teamOneBases = new int[5];
     public int[] teamTwoBases = new int[5];
+    public int winner;
 
     public static GameManager Instance {
         get {
@@ -56,7 +57,8 @@ public class GameManager : MonoBehaviour {
     }
 
     public void EndGame(int winner){
-        Debug.Log("Game ended");
+        this.winner = winner;
+        EventSystem.FireEvent(EventType.GameOver);
     }
 
     private int getNextPlayersTurn(int activeTurn){
@@ -66,7 +68,7 @@ public class GameManager : MonoBehaviour {
 
     private void EndTurn(){
         EventSystem.FireEvent(EventType.TurnOver);
-        
+
         if (heartScore[0] == 0 && heartScore[1] == 0){
             EndGame(2);
         } else if (heartScore[2] == 0 && heartScore[3] == 0){
