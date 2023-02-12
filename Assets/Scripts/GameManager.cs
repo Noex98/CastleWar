@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
     private static GameManager _instance;
+    public int activeTurn = 0;
+    public int[] heartScore = new int[4] {3, 3, 3, 3};
+    public int[] teamOneBases = new int[5];
+    public int[] teamTwoBases = new int[5];
+
     public static GameManager Instance {
         get {
             if (_instance == null) {
@@ -28,13 +33,6 @@ public class GameManager : MonoBehaviour {
         EventSystem.FireEvent(EventType.TurnStart);
     }
 
-    public int activeTurn = 0;
-    public int[] heartScore = new int[4] {3, 3, 3, 3};
-    public int[] teamOneBases = new int[5];
-    public int[] teamTwoBases = new int[5];
-
-    
-
     private int getCurrentTeam(){
         return activeTurn < 2 ? 1 : 2;
     }
@@ -42,7 +40,7 @@ public class GameManager : MonoBehaviour {
     public void HandleBaseHit(int baseId){
         int currentTeam = getCurrentTeam();
         //bool baseAlreadyCaptured = 
-        ChangeTurn();
+        EndTurn();
     }
 
     public void HandleCastleHit(int castleId){
@@ -50,15 +48,14 @@ public class GameManager : MonoBehaviour {
             heartScore[castleId] -= 1;
         }
         EventSystem.FireEvent(EventType.CastleHit);
-        ChangeTurn();
+        EndTurn();
     }
 
     public void HandleMiss(){
-        Debug.Log("Miss");
-        ChangeTurn();
+        EndTurn();
     }
 
-    public void EndGame(){
+    public void EndGame(int winner){
         Debug.Log("Game ended");
     }
 
@@ -67,8 +64,19 @@ public class GameManager : MonoBehaviour {
         return heartScore[nextPlayer] == 0 ? getNextPlayersTurn(nextPlayer) : nextPlayer;
     }
 
-    private void ChangeTurn(){
+    private void EndTurn(){
         EventSystem.FireEvent(EventType.TurnOver);
+        
+        if (heartScore[0] == 0 && heartScore[1] == 0){
+            EndGame(2);
+        } else if (heartScore[2] == 0 && heartScore[3] == 0){
+            EndGame(1);
+        } else {
+            ChangeTurn();
+        }
+    }
+
+    private void ChangeTurn(){
         activeTurn = getNextPlayersTurn(activeTurn);
         EventSystem.FireEvent(EventType.TurnStart);
     }
