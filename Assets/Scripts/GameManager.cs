@@ -43,7 +43,6 @@ public class GameManager : MonoBehaviour {
         baseState[baseId] = currentTeam;
         EventSystem.FireEvent(EventType.BaseHit);
         EndTurn();
-        
     }
 
     public void HandleCastleHit(int castleId){

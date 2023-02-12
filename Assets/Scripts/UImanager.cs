@@ -5,6 +5,8 @@ using TMPro;
 public class UImanager : MonoBehaviour{
     private GameManager gameManager;
     public TMPro.TextMeshProUGUI[] heartDisplays = {};
+    public TMPro.TextMeshProUGUI turnDisplay;
+
 
     private void Awake() {
         gameManager = GameManager.Instance;
@@ -26,16 +28,23 @@ public class UImanager : MonoBehaviour{
             heartDisplays[2].text = "Winner";
             heartDisplays[3].text = "Winner";
         }
+        turnDisplay.text = "Game Over";
+    }
+
+    public void UpdateTurnDisplay(){
+        turnDisplay.text = "Current player: " + (gameManager.activeTurn + 1);
     }
 
     void OnEnable() {
 		EventSystem.RegisterForEvent(UpdateHeartDisplay, EventType.CastleHit);
         EventSystem.RegisterForEvent(AnnounceWin, EventType.GameOver);
+        EventSystem.RegisterForEvent(UpdateTurnDisplay, EventType.TurnStart);
 	}
 
 	void OnDisable() {
 		EventSystem.UnRegisterFromEvent(UpdateHeartDisplay, EventType.CastleHit);
         EventSystem.RegisterForEvent(AnnounceWin, EventType.GameOver);
+        EventSystem.RegisterForEvent(UpdateTurnDisplay, EventType.TurnStart);
 	}
 
     private void UpdateHeartDisplay() {
