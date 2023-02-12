@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
-{
+public class GameManager : MonoBehaviour {
+
+    /*
     private static GameManager _instance;
     public static GameManager Instance { 
         get {
@@ -14,14 +15,17 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public int activeTurn = 0;
-    public int[] heartScore = new int[] {3, 3, 3, 3};
-    public int[] teamOneBases = new int[5];
-    public int[] teamTwoBases = new int[5];
-
     private void Awake() {
         DontDestroyOnLoad(gameObject);
     }
+    */
+
+    public int activeTurn = 0;
+    public int[] heartScore = new int[4] {3, 3, 3, 3};
+    public int[] teamOneBases = new int[5];
+    public int[] teamTwoBases = new int[5];
+
+    
 
     private int getCurrentTeam(){
         return activeTurn < 2 ? 1 : 2;
