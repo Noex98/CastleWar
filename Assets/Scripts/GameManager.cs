@@ -6,7 +6,8 @@ public class GameManager : MonoBehaviour {
     private static GameManager _instance;
     public int activeTurn = 0;
     public int[] heartScore = new int[4] {3, 3, 3, 3};
-    public int[][] baseState = new int[3][];
+    public int[] baseState = {0, 0, 0};
+
     public int winner;
 
     public static GameManager Instance {
@@ -34,15 +35,16 @@ public class GameManager : MonoBehaviour {
     }
 
     private int getCurrentTeam(){
-        return activeTurn < 2 ? 0 : 1;
+        return activeTurn < 2 ? 1 : 2;
     }
 
     public void HandleBaseHit(int baseId){
-        /*
         int currentTeam = getCurrentTeam();
-        if(baseState[currentTeam].)
+        baseState[baseId] = currentTeam;
+        EventSystem.FireEvent(EventType.BaseHit);
+        Debug.Log("Gm");
         EndTurn();
-        */
+        
     }
 
     public void HandleCastleHit(int castleId){

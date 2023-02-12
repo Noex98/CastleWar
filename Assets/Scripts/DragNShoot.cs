@@ -74,6 +74,7 @@ public class DragNShoot : MonoBehaviour {
         if(targetHit.tag.Contains("Castle")){
             gameManager.HandleCastleHit(targetHit.GetComponent<castle>().id);
         } else if(targetHit.tag.Contains("Base")){
+            Debug.Log("Drag and shoot");
             gameManager.HandleBaseHit(targetHit.GetComponent<Base>().id);
         }
         Destroy(gameObject, 0);
